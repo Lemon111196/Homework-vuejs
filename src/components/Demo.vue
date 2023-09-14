@@ -25,35 +25,37 @@
             <td>{{ item.physics }}</td>
             <td>{{ item.chemistry }}</td>
             <td>{{ average(item.math, item.physics, item.chemistry) }}</td>
-            <td><button class="btn btn-update" @click="openModal" >Update</button></td>
+            <td><button class="btn btn-update" @click="openModal">Update</button></td>
             <td><button class="btn btn-delete">Delete</button></td>
           </tr>
         </tbody>
       </table>
       <input type="number" v-model="plusMark">
     </div>
-    <button class="btn btn-add" v-if="!isUpdate" @click="isAddNew">Add new</button>
+    <button class="btn btn-add">Add new</button>
     <div class="modal" v-if="showModal">
-      <form @submit.prevent="addNew">
-        <label for="">Full name: </label>
-        <input type="text" class="inpt">
+      <form>
+        <label for="">First name:</label>
+        <input type="text" v-model="formData.firstname">
+        <label for="">Last name</label>
+        <input type="text" v-model="formData.lastname">
         <br>
         <label for="">Class: </label>
-        <input type="text" class="inpt">
+        <input type="text" v-model="formData.class">
         <br>
         <label for="">Math: </label>
-        <input type="number" class="inpt">
+        <input type="number" v-model="formData.math">
         <br>
         <label for="">Physics: </label>
-        <input type="number" class="inpt">
+        <input type="number" v-model="formData.physics">
         <br>
         <label for="">Chemistry: </label>
-        <input type="number" class="inpt">
+        <input type="number" v-model="formData.chemistry">
         <br>
         <div class="btn-all">
-          <button class="btn btn-cancel" @click="closeModal">Cancel</button>
-          <button class="btn btn-add" v-if="isAdd">Add new</button>
-          <button class="btn btn-confirm" v-if="!isUpdate">Confirm</button>
+          <button class="btn btn-cancel">Cancel</button>
+          <button class="btn btn-add">Add new</button>
+          <button class="btn btn-confirm">Confirm</button>
         </div>
       </form>
     </div>
@@ -97,9 +99,15 @@ export default {
         },
       ],
       plusMark: null,
-      showModal: false,
-      isUpdate: false,
-      isAdd: false,
+      formData: {
+        id: "",
+        firstname: "",
+        lastname: "",
+        class: "",
+        math: "",
+        physics: "",
+        chemistry: "",
+      }
     }
   },
   computed: {
@@ -114,15 +122,7 @@ export default {
     average(math, physics, chemistry) {
       return (math + physics + chemistry) / 3;
     },
-    openModal(){
-      this.showModal= true;
-    },
-    closeModal() {
-      this.showModal= false;
-    },
-    isAddNew(){
-      this.showModal= true;
-    },
+
   },
   watch: {
     plusMark() {
@@ -188,31 +188,40 @@ td {
 .btn-add {
   background-color: rgb(61, 191, 61);
 }
+
 .btn-add:hover {
   background-color: rgb(35, 116, 35);
 }
+
 .btn-update {
   background-color: rgb(202, 168, 20);
 }
+
 .btn-update:hover {
   background-color: rgb(123, 105, 23);
 }
+
 .btn-delete {
   background-color: crimson;
 }
+
 .btn-delete:hover {
   background-color: rgb(107, 24, 40);
 }
+
 .btn-cancel {
   background-color: #888;
 }
+
 .btn-cancel:hover {
   background-color: #535353;
 }
-.btn-confirm{
+
+.btn-confirm {
   background-color: rgb(192, 154, 56);
 }
-.btn-confirm:hover{
+
+.btn-confirm:hover {
   background-color: rgb(108, 85, 28);
 }
 
@@ -221,7 +230,8 @@ td {
   justify-content: center;
   align-items: center;
 }
-.btn-all{
+
+.btn-all {
   display: flex;
   justify-content: center;
 }

@@ -113,17 +113,24 @@ export default {
                 this.link = {}
         },
         //**open Modal ** -----------------------------------------------------------------------
-        openCreateModal() {
+        openCreateModal(isUpdate = false, item) {
+            this.isUpdate = isUpdate;
+            // console.log(this.cardModal);
+            // console.log(item);
+            if (this.isUpdate) {
+                this.getCardDetail(item._id)
+            }
+
             this.cardModal = true;
-            console.log(this.openCreateModal);
-            console.log(this.formModal);
+            console.log(this.cardModal);
+
         },
         //** GET Card List ** -----------------------------------------------------------------------
         async getLinkCardList() {
             try {
                 const response = await apiService.get("/linkcard/list")
                 console.log(response)
-                this.linkCardList = response.data.notes;
+                this.linkCardList = response.data.linkcards;
             } catch (error) {
                 this.$toast.error(error.response.data.success)
             }
@@ -131,7 +138,7 @@ export default {
         //** Create Card List ** -----------------------------------------------------------------------
         async createLinkCard() {
             try {
-                const response = await apiService.post("linkcard/create", this.formModal)
+                const response = await apiService.post("/linkcard/create", this.formModal)
                 console.log(response);
                 this.$toast.success(response.data.message);
                 // this.postModal = false;
@@ -155,6 +162,7 @@ export default {
                 this.$toast.error(error);
             }
         },
+        //** DELETE CARD------------------------------------------------------------------------------------
         async deleteLinkCard() {
             try {
                 await apiService.delete(`/linkcard/delete/${this.formModal._id}`)
@@ -165,7 +173,17 @@ export default {
             } catch (error) {
                 this.$toast.error(error);
             }
-        }
+        },
+        //** GET DETAIL CARD------------------------------------------------------------------------------------
+        async getCardDetail(id) {
+            try {
+                const response = await apiService.get(`/linkcard/detail/${id}`)
+                this.formModal = response.data.linkcards;
+                this.link = response.data.linkcards;
+            } catch (error) {
+                this.$toast.error(error);
+            }
+        },
     },
 }
 </script>

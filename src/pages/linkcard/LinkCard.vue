@@ -19,7 +19,7 @@
                             item.status }}</b-badge>
                 </div>
                 <div class="urlLinkCard">{{ item.url }}</div>
-                <b-modal v-model="postModal" :title="isUpdate === true ? 'Update' : 'Create new link card'" centered
+                <b-modal v-model="cardModal" :title="isUpdate === true ? 'Update' : 'Create new link card'" centered
                     :oke-title="isUpdate === true ? 'Update' : 'Create'" @ok="validateCreateLinkCard">
                     <ValidationObserver tag="form" ref="create-form">
                         <ValidationProvider rules="required" #default="{ errors }" name="Title">
@@ -113,7 +113,7 @@ export default {
         },
         //**open Modal ** -----------------------------------------------------------------------
         openCreateModal() {
-            this.postModal = true;
+            this.cardModal = true;
         },
         //** GET Card List ** -----------------------------------------------------------------------
         async getLinkCardList() {

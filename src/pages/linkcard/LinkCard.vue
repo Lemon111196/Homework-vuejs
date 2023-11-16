@@ -1,8 +1,8 @@
 <template>
     <div class='link-card-container'>
         <div class="link-card-list">
-            <button variant="secondary" @click="openCreateModal">+</button>
-            <div class="link-card" v-for="(item, index)  in linkCard" :key="index"
+            <button variant="secondary" @click="openCreateModal(false)">+</button>
+            <div class="link-card" v-for="(item, index)  in linkCardList" :key="index"
                 :class="item.status === 'LEARNED' ? 'border-danger' : item.status === 'LEARNING' ? 'border-warn' : 'border-sucess'">
                 <div class="headerLinkCard">
                     <h3>{{ item.title }}</h3>
@@ -75,7 +75,7 @@ export default {
                 { value: "LEARNING", text: "Learning" },
                 { value: "LEARNED", text: "Learned" },
             ],
-            linkCard: [],
+            linkCardList: [],
             link: {},
             deleteModal: false,
             isUpdate: false
@@ -123,7 +123,7 @@ export default {
             try {
                 const response = await apiService.get("/linkcard/list")
                 console.log(response)
-                this.noteList = response.data.notes;
+                this.linkCardList = response.data.notes;
             } catch (error) {
                 this.$toast.error(error.response.data.success)
             }

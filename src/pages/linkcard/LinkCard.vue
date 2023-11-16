@@ -19,8 +19,8 @@
                             item.status }}</b-badge>
                 </div>
                 <div class="urlLinkCard">{{ item.url }}</div>
-                <b-modal v-model="cardModal" :title="isUpdate === true ? 'Update' : 'Create new link card'" centered
-                    :oke-title="isUpdate === true ? 'Update' : 'Create'" @ok="validateCreateLinkCard">
+                <b-modal v-model="cardModal" :title="isUpdate ? 'Update' : 'Create new link card'" centered
+                    :ok-title="isUpdate ? 'Update' : 'Create'" @ok="validateCreateLinkCard">
                     <ValidationObserver tag="form" ref="create-form">
                         <ValidationProvider rules="required" #default="{ errors }" name="Title">
                             <b-form-group label="Title">
@@ -78,6 +78,7 @@ export default {
             linkCard: [],
             link: {},
             deleteModal: false,
+            isUpdate: false
         }
     },
     mounted() {
@@ -114,6 +115,8 @@ export default {
         //**open Modal ** -----------------------------------------------------------------------
         openCreateModal() {
             this.cardModal = true;
+            console.log(this.openCreateModal);
+            console.log(this.formModal);
         },
         //** GET Card List ** -----------------------------------------------------------------------
         async getLinkCardList() {
@@ -127,15 +130,14 @@ export default {
         },
         //** Create Card List ** -----------------------------------------------------------------------
         async createLinkCard() {
-            console.log(this.formModal);
             try {
                 const response = await apiService.post("linkcard/create", this.formModal)
                 console.log(response);
                 this.$toast.success(response.data.message);
                 // this.postModal = false;
                 this.getLinkCardList()
-                this.closePostModal();
-                this.resetForm();
+                // this.closePostModal();
+                // this.resetForm();
             } catch (error) {
                 console.log(error);
                 this.$toast.error(error);
